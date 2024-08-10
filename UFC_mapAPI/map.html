@@ -1,55 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Load data from an external GeoJSON file</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.5.1/mapbox-gl.js"></script>
-<style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapbox Time Slider with Date Files</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        #slider {
+            position: absolute;
+            bottom: 30px;
+            left: 50px;
+            z-index: 1;
+            background: white;
+            padding: 10px;
+            width: 400px;
+        }
+    </style>
 </head>
 <body>
+
 <div id="map"></div>
+<div id="slider">
+    <input id="time-slider" type="range" min="0" max="20" step="7" value="0">
+    <label for="time-slider" id="date-label">2024-07-31</label>
+</div>
 
 <script>
-	mapboxgl.accessToken = '';
-const map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-    center: [-98, 39], // starting position [lng, lat]
-    zoom: 3 // starting zoom
-});
-
-map.on('load', () => {
-    map.addSource('gyms', {
-        'type': 'geojson',
-        'data': 'https://raw.githubusercontent.com/Brettzim/ufc_gyms_map/color-coded-markers/UFC_mapAPI/jupyter_notebooks/fighters_gyms.geojson'
+    mapboxgl.accessToken = '';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [-98, 38.88],
+        zoom: 3
     });
 
-    map.addLayer({
-        'id': 'gyms',
-        'type': 'circle',
-        'source': 'gyms',
-        'paint': {
-            'circle-radius': 5,
-            'circle-color': [
-                'case',
-                ['==', ['get', 'number_of_fighters'], 1], '#007cbf', // Blue for 1 fighter
-                ['==', ['get', 'number_of_fighters'], 2], '#ff0000', // Red for 2 fighters
-                ['==', ['get', 'number_of_fighters'], 3], '#ff0000', // Red for 3 fighters
-                ['==', ['get', 'number_of_fighters'], 4], '#800080', // Purple for 4 fighters
-                ['==', ['get', 'number_of_fighters'], 5], '#800080', // Purple for 5 fighters
-                ['>=', ['get', 'number_of_fighters'], 6], '#000000', // Black for 6+ fighters
-                '#FFFFFF' // White default
-            ],
-            'circle-sort-key': ['get', 'number_of_fighters']
-        }
-    });
+    const startDate = new Date('2024-07-31'); // Adjust this to your earliest date
+    const baseUrl = 'https://raw.githubusercontent.com/Brettzim/ufc_gyms_map/gyms_over_time/UFC_mapAPI/geojsons/';
 
-    map.on('click', 'gyms', (e) => {
+    const loadGeoJSON = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        const geojsonUrl = `${baseUrl}${formattedDate}.geojson`;
+
+        fetch(geojsonUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (map.getSource('gyms')) {
+                    map.getSource('gyms').setData(data);
+                } else {
+                    map.addSource('gyms', {
+                        'type': 'geojson',
+                        'data': data
+                    });
+                    map.addLayer({
+                        'id': 'gyms-layer',
+                        'type': 'circle',
+                        'source': 'gyms',
+                        'paint': {
+                        'circle-radius': 5,
+                        'circle-color': [
+                            'case',
+                            ['==', ['get', 'number_of_fighters'], 1], '#007cbf', // Blue for 1 fighter
+                            ['==', ['get', 'number_of_fighters'], 2], '#ff0000', // Red for 2 fighters
+                            ['==', ['get', 'number_of_fighters'], 3], '#ff0000', // Red for 3 fighters
+                            ['==', ['get', 'number_of_fighters'], 4], '#800080', // Purple for 4 fighters
+                            ['==', ['get', 'number_of_fighters'], 5], '#800080', // Purple for 5 fighters
+                            ['>=', ['get', 'number_of_fighters'], 6], '#000000', // Black for 6+ fighters
+                            '#FFFFFF' // White default
+                        ]
+                        
+                        }
+                    });
+                }
+            })
+            .catch(error => console.error('Error loading GeoJSON:', error));
+    };
+    map.on('click', 'gyms-layer', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
         const description = e.features[0].properties.fighters;
 
@@ -63,14 +91,30 @@ map.on('load', () => {
             .addTo(map);
     });
 
-    map.on('mouseenter', 'gyms', () => {
+    map.on('mouseenter', 'gyms-layer', () => {
         map.getCanvas().style.cursor = 'pointer';
     });
 
-    map.on('mouseleave', 'gyms', () => {
+    map.on('mouseleave', 'gyms-layer', () => {
         map.getCanvas().style.cursor = '';
     });
-}); 
+
+    const getDateFromSliderValue = (value) => {
+        const date = new Date(startDate);
+        date.setDate(date.getDate() + parseInt(value));
+        return date;
+    };
+
+    loadGeoJSON(startDate);
+
+    document.getElementById('time-slider').addEventListener('input', (e) => {
+        const date = getDateFromSliderValue(e.target.value);
+        const formattedDate = date.toISOString().split('T')[0];
+        document.getElementById('date-label').textContent = formattedDate;
+
+        loadGeoJSON(date);
+    });
+
 </script>
 
 </body>

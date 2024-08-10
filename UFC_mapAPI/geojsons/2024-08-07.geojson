@@ -409,15 +409,15 @@
     {
       "type": "Feature",
       "properties": {
-        "gym_location": "Hawaii Elite MMA",
+        "gym_location": "Gracie Technics",
         "fighters": "<strong>Fighters:</strong><br>Max Holloway (Featherweight - 2)<br>Max Holloway (Lightweight - 9)",
         "number_of_fighters": 2
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -158.0007116,
-          21.3999581
+          -157.8721091,
+          21.32370264
         ]
       }
     },
