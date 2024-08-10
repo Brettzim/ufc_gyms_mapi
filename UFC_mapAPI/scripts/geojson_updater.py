@@ -87,7 +87,7 @@ geojson = {
 }
 
 # Write the dict to a GeoJSON file
-geojson_filename = f"../geojsons/fighter_gyms_{datetime.today().strftime('%Y-%m-%d')}.geojson"
+geojson_filename = f"../geojsons/{datetime.today().strftime('%Y-%m-%d')}.geojson"
 
 with open(geojson_filename, 'w') as file:
     json.dump(geojson, file, indent=2)

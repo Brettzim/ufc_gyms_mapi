@@ -50,8 +50,8 @@
       "type": "Feature",
       "properties": {
         "gym_location": "Xtreme Couture",
-        "fighters": "<strong>Fighters:</strong><br>Amir Albazi (Flyweight - 3)<br>Manel Kape (Flyweight - 9)<br>Dan Ige (Featherweight - 14)<br>Sean Strickland (Middleweight - 1)<br>Roman Dolidze (Middleweight - 10)<br>Michel Pereira (Middleweight - 13)<br>Chris Curtis (Middleweight - 15)<br>Magomed Ankalaev (Light Heavyweight - 2)<br>Roman Dolidze (Light Heavyweight - 15)<br>Casey O'Neill (Women's Flyweight - 15)",
-        "number_of_fighters": 10
+        "fighters": "<strong>Fighters:</strong><br>Amir Albazi (Flyweight - 3)<br>Manel Kape (Flyweight - 9)<br>Dan Ige (Featherweight - 14)<br>Sean Strickland (Middleweight - 1)<br>Roman Dolidze (Middleweight - 10)<br>Michel Pereira (Middleweight - 13)<br>Chris Curtis (Middleweight - 15)<br>Magomed Ankalaev (Light Heavyweight - 2)<br>Roman Dolidze (Light Heavyweight - 15)<br>Casey O'Neill (Women's Flyweight - 15)<br>Miesha Tate (Women's Bantamweight - 8)",
+        "number_of_fighters": 11
       },
       "geometry": {
         "type": "Point",
@@ -155,8 +155,8 @@
       "type": "Feature",
       "properties": {
         "gym_location": "American Kickboxing Academy",
-        "fighters": "<strong>Fighters:</strong><br>Matt Schnell (Flyweight - 11)<br>Islam Makhachev (Lightweight - Champion)",
-        "number_of_fighters": 2
+        "fighters": "<strong>Fighters:</strong><br>Matt Schnell (Flyweight - 11)",
+        "number_of_fighters": 1
       },
       "geometry": {
         "type": "Point",
@@ -170,14 +170,14 @@
       "type": "Feature",
       "properties": {
         "gym_location": "Eagles MMA",
-        "fighters": "<strong>Fighters:</strong><br>Tagir Ulanbekov (Flyweight - 12)<br>Umar Nurmagomedov (Bantamweight - 2)<br>Sergei Pavlovich (Heavyweight - 4)",
+        "fighters": "<strong>Fighters:</strong><br>Tagir Ulanbekov (Flyweight - 12)<br>Umar Nurmagomedov (Bantamweight - 2)<br>Islam Makhachev (Lightweight - Champion)",
         "number_of_fighters": 3
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          37.45371394,
-          55.72600052
+          47.51497712,
+          42.97801868
         ]
       }
     },
@@ -1009,6 +1009,21 @@
     {
       "type": "Feature",
       "properties": {
+        "gym_location": "UB Gym",
+        "fighters": "<strong>Fighters:</strong><br>Sergei Pavlovich (Heavyweight - 4)",
+        "number_of_fighters": 1
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.51262044,
+          55.80878327
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "gym_location": "Strongstyle Fight Team",
         "fighters": "<strong>Fighters:</strong><br>Stipe Miocic (Heavyweight - 6)",
         "number_of_fighters": 1
@@ -1175,8 +1190,8 @@
       "type": "Feature",
       "properties": {
         "gym_location": "PRVT Para Vale Tudo",
-        "fighters": "<strong>Fighters:</strong><br>J\u00e9ssica Andrade (Women's Strawweight - 4)<br>J\u00e9ssica Andrade (Women's Flyweight - 6)<br>Karol Rosa (Women's Bantamweight - 8)",
-        "number_of_fighters": 3
+        "fighters": "<strong>Fighters:</strong><br>J\u00e9ssica Andrade (Women's Strawweight - 4)<br>J\u00e9ssica Andrade (Women's Flyweight - 6)",
+        "number_of_fighters": 2
       },
       "geometry": {
         "type": "Point",
